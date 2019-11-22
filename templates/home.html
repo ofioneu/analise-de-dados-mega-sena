@@ -31,6 +31,8 @@
             <script>
                 socket.on('message', function(data) {
                          console.log("teste: ", data)
+                         dezenas_int= JSON.parse(data)
+                         console.log('Aqui está d1: ', dezenas_int.d1)
                         //console.log(data)                   
                                                                 
                         
@@ -134,20 +136,29 @@
                         
                         series: [{
                             name: 'Qtd.Num',
-                            data: data
+                            data: dezenas_int.soma
                     
                         }, {
                             name: 'Dezena 1',
-                            data: [0]
+                            data: dezenas_int.d1
                     
                         }, {
                             name: 'Dezena 2',
-                            data: [0]
+                            data: dezenas_int.d2
                     
                         }, {
                             name: 'dezena 3',
-                            data: [0]
+                            data: dezenas_int.d3
                     
+                        }, {
+                            name: 'dezena 4',
+                            data: dezenas_int.d4
+                        }, {
+                            name: 'dezena 5',
+                            data: dezenas_int.d5
+                        }, {
+                            name: 'dezena 6',
+                            data: dezenas_int.d6
                         }]
                     });
                 });

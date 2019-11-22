@@ -132,11 +132,23 @@ finally:
                 
         print('Soma final : ', soma_final)
         
+        dezenas_dict = {
+            "soma": soma_final,
+            "d1": dezenas_a_int,
+            "d2": dezenas_b_int,
+            "d3": dezenas_c_int,
+            "d4": dezenas_d_int,
+            "d5": dezenas_e_int,
+            "d6": dezenas_f_int,
+            }
+
+        dezenas_json = json.dumps(dezenas_dict)
+        
 
         @socketio.on('message')
         def menssagem(message):
             print(message) 
-            emit('message', soma_final)
+            emit('message', dezenas_json)
             time.sleep(1)
         return render_template('home.html')
 
