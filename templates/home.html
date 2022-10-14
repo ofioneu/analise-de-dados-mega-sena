@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
-    <script type="text/javascript" charset="utf-8"></script>
+    <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf-8"></script> -->
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="../static/css/main.css">
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
@@ -15,28 +15,34 @@
 </head>
 <body style="background: rgb(83, 117, 182);" >
     
-
-        <script>
-                var socket = io();
-                socket.on('connect', function() {
-                    socket.emit('message', {status: 'CONECTADO!'});
-                });
-                        
-                        
-                
-            </script>
     
     <figure class="highcharts-figure">
             <div id="container"></div>
-            <script>
-                socket.on('message', function(data) {
-                         console.log("teste: ", data)
-                         dezenas_int= JSON.parse(data)
-                         console.log('Aqui está d1: ', dezenas_int.d1)
-                        //console.log(data)                   
-                                                                
-                        
-                    Highcharts.chart('container', {
+<script>
+    const url = 'http://192.168.1.77:5000/'
+let data
+
+async function getData() {
+
+    const response = await fetch(url, {
+        method: "GET",
+        headers: {"Content-type": "application/json;charset=UTF-8"}
+    })
+    .then(response => response.json()) 
+    .then(data_res =>{
+        let dataInfo =JSON.parse(data_res)
+        grafic(dataInfo)
+    })
+    .catch(err => console.log('ERROR: ',err))
+}
+
+
+ function grafic(data){
+
+     
+     console.log(data.soma)
+
+                Highcharts.chart('container', {
                         chart: {
                             type: 'column'
                         },
@@ -136,32 +142,33 @@
                         
                         series: [{
                             name: 'Qtd.Num',
-                            data: dezenas_int.soma
+                            data: data.soma
                     
                         }, {
                             name: 'Dezena 1',
-                            data: dezenas_int.d1
+                            data: data.d1
                     
                         }, {
                             name: 'Dezena 2',
-                            data: dezenas_int.d2
+                            data: data.d2
                     
                         }, {
                             name: 'dezena 3',
-                            data: dezenas_int.d3
+                            data: data.d3
                     
                         }, {
                             name: 'dezena 4',
-                            data: dezenas_int.d4
+                            data: data.d4
                         }, {
                             name: 'dezena 5',
-                            data: dezenas_int.d5
+                            data: data.d5
                         }, {
                             name: 'dezena 6',
-                            data: dezenas_int.d6
+                            data: data.d6
                         }]
-                    });
-                });
+                    })};
+                
+            getData()    
                 </script>
             </p>
         </figure>
